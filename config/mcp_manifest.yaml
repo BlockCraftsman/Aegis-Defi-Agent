@@ -1,0 +1,55 @@
+# MCP Server Manifest
+server_config:
+  host: "0.0.0.0"
+  port: 18080
+  max_connections: 100
+  timeout: 30s
+
+ipfs:
+  enable: true  # Set to true to enable IPFS support
+  lassie_net:
+    scheme: "http"  # http or https
+    host: "127.0.0.1"
+    port: 31999
+  cids: []  # Optional list of pre-loaded CIDs
+
+llm_config:
+  base_url: ""  # Optional base URL for API endpoints
+  provider: "openai"  # Default provider
+  openai:  # OpenAI-specific config
+    api_key: ""
+    model: "gpt-4"
+    temperature: 0.7
+    max_tokens: 2048
+  # Add other provider configs here as needed
+
+# Defines WASM modules and their exposed MCP tools
+modules:
+  - name: "hello"
+    #wasm_path: "file://config/hello.wasm"  # Supports file:// or IPFS:// schemes
+    wasm_path: "IPFS://QmeDsaLTc8dAfPrQ5duC4j5KqPdGbcinEo5htDqSgU8u8Z"  # Supports file:// or IPFS:// schemes
+    tools:
+      - name: "say_hello"
+        description: "Greet someone by name"
+        inputs:
+          - name: "name"
+            type: "string"
+            required: true
+            description: "Name to greet"
+        outputs:
+          type: "string"
+          description: "Greeting message"
+
+  - name: "data_validation"
+    wasm_path: "file://wasm-examples/data-validation/validate.wasm"
+    tools:
+      - name: "validate_data"
+        description: "Validate a JSON string to ensure it contains a 'signature' key"
+        inputs:
+          - name: "json_data"
+            type: "string"
+            required: true
+            description: "The JSON data to validate"
+        outputs:
+          type: "string"
+          description: "A JSON string indicating success or failure"
