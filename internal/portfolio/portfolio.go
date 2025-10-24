@@ -284,6 +284,14 @@ func (p *Portfolio) GetAssetAllocation() map[string]float64 {
 	totalValue := p.GetTotalValue()
 	allocation := make(map[string]float64)
 
+	// Include cash in allocation
+	if p.CashBalance.Cmp(big.NewFloat(0)) > 0 && totalValue.Cmp(big.NewFloat(0)) != 0 {
+		cashFloat, _ := p.CashBalance.Float64()
+		totalFloat, _ := totalValue.Float64()
+		allocation["CASH"] = (cashFloat / totalFloat) * 100
+	}
+
+	// Include assets in allocation
 	for symbol, asset := range p.Assets {
 		if asset.ValueUSD != nil && totalValue.Cmp(big.NewFloat(0)) != 0 {
 			valueFloat, _ := asset.ValueUSD.Float64()
