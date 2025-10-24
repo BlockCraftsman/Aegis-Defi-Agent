@@ -1,9 +1,5 @@
 # Aegis-Defi-Agent: AI-Powered DeFi Agent Platform
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/aegis-protocol/aegis-core)
-![build](https://github.com/aegis-protocol/aegis-core/actions/workflows/build.yml/badge.svg)
-![test](https://github.com/aegis-protocol/aegis-core/actions/workflows/test.yml/badge.svg)
-
 **Aegis-Defi-Agent** is an AI-powered DeFi automation framework that provides the infrastructure for building intelligent DeFi agents and strategies. 
 
 ## Why "Aegis-Defi-Agent"?
