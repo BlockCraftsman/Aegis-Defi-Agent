@@ -8,6 +8,7 @@ require (
 	github.com/charmbracelet/lipgloss v0.10.0
 	github.com/ethereum/go-ethereum v1.16.5
 	github.com/extism/go-sdk v1.7.1
+	github.com/gorilla/mux v1.8.1
 	github.com/gorilla/websocket v1.5.3
 	github.com/ipfs/go-cid v0.5.0
 	github.com/ipfs/go-unixfsnode v1.10.0

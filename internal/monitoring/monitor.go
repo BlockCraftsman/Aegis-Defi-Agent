@@ -3,6 +3,7 @@ package monitoring
 import (
 	"context"
 	"fmt"
+	"math/big"
 	"net/http"
 	"sync"
 	"time"
@@ -59,6 +60,13 @@ type Metrics struct {
 	// Error metrics
 	ErrorsTotal   *prometheus.CounterVec
 	WarningsTotal *prometheus.CounterVec
+
+	// Portfolio metrics
+	PortfolioAssets    *prometheus.GaugeVec
+	PortfolioPositions *prometheus.GaugeVec
+	PositionsOpened    *prometheus.CounterVec
+	PositionsClosed    *prometheus.CounterVec
+	PositionPnl        *prometheus.HistogramVec
 }
 
 // HealthCheck represents a health check function
@@ -174,6 +182,29 @@ func registerMetrics() *Metrics {
 			Name: "aegis_warnings_total",
 			Help: "Total number of warnings by type",
 		}, []string{"type", "component"}),
+
+		// Portfolio metrics
+		PortfolioAssets: promauto.NewGaugeVec(prometheus.GaugeOpts{
+			Name: "aegis_portfolio_assets",
+			Help: "Number of assets in portfolio",
+		}, []string{"portfolio_id"}),
+		PortfolioPositions: promauto.NewGaugeVec(prometheus.GaugeOpts{
+			Name: "aegis_portfolio_positions",
+			Help: "Number of positions in portfolio",
+		}, []string{"portfolio_id"}),
+		PositionsOpened: promauto.NewCounterVec(prometheus.CounterOpts{
+			Name: "aegis_positions_opened_total",
+			Help: "Total number of positions opened",
+		}, []string{"asset", "type"}),
+		PositionsClosed: promauto.NewCounterVec(prometheus.CounterOpts{
+			Name: "aegis_positions_closed_total",
+			Help: "Total number of positions closed",
+		}, []string{"asset", "type"}),
+		PositionPnl: promauto.NewHistogramVec(prometheus.HistogramOpts{
+			Name:    "aegis_position_pnl",
+			Help:    "Position profit and loss distribution",
+			Buckets: []float64{-1000, -500, -100, -50, -10, 0, 10, 50, 100, 500, 1000},
+		}, []string{"asset", "type"}),
 	}
 }
 
@@ -310,6 +341,37 @@ func (m *Monitor) RecordWarning(warningType, component string) {
 	}
 
 	m.metrics.WarningsTotal.WithLabelValues(warningType, component).Inc()
+}
+
+// RecordPortfolioUpdate records portfolio update metrics
+func (m *Monitor) RecordPortfolioUpdate(portfolioID string, assetCount, positionCount int) {
+	if !m.cfg.Enabled || m.metrics == nil {
+		return
+	}
+
+	// Record portfolio metrics
+	m.metrics.PortfolioAssets.WithLabelValues(portfolioID).Set(float64(assetCount))
+	m.metrics.PortfolioPositions.WithLabelValues(portfolioID).Set(float64(positionCount))
+}
+
+// RecordPositionOpened records position opened metrics
+func (m *Monitor) RecordPositionOpened(asset, positionType string) {
+	if !m.cfg.Enabled || m.metrics == nil {
+		return
+	}
+
+	m.metrics.PositionsOpened.WithLabelValues(asset, positionType).Inc()
+}
+
+// RecordPositionClosed records position closed metrics
+func (m *Monitor) RecordPositionClosed(asset, positionType string, pnl *big.Float) {
+	if !m.cfg.Enabled || m.metrics == nil {
+		return
+	}
+
+	pnlFloat, _ := pnl.Float64()
+	m.metrics.PositionsClosed.WithLabelValues(asset, positionType).Inc()
+	m.metrics.PositionPnl.WithLabelValues(asset, positionType).Observe(pnlFloat)
 }
 
 // UpdateSystemMetrics updates system-level metrics

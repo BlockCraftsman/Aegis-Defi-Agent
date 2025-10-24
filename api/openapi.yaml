@@ -1,0 +1,856 @@
+openapi: 3.0.3
+info:
+  title: Aegis DeFi Agent API
+  description: |
+    Aegis DeFi Agent is a next-generation decentralized AI agent platform that seamlessly 
+    integrates blockchain intelligence, cross-chain operations, and autonomous AI decision-making.
+    
+    This API provides programmatic access to DeFi trading, portfolio management, market data,
+    and AI-powered automation capabilities.
+  version: 2.0.0
+  contact:
+    name: Aegis Protocol Team
+    url: https://github.com/BlockCraftsman/Aegis-Defi-Agent
+    email: support@aegisprotocol.io
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+  - url: https://api.aegisprotocol.io/v1
+    description: Production API server
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      description: Check the health status of the API server
+      operationId: getHealth
+      tags:
+        - System
+      responses:
+        '200':
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '503':
+          description: API is unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /metrics:
+    get:
+      summary: Prometheus metrics
+      description: Get Prometheus metrics for monitoring
+      operationId: getMetrics
+      tags:
+        - System
+      responses:
+        '200':
+          description: Metrics data
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /api/v1/portfolio:
+    get:
+      summary: List portfolios
+      description: Get a list of all portfolios
+      operationId: listPortfolios
+      tags:
+        - Portfolio
+      responses:
+        '200':
+          description: List of portfolios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Portfolio'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    post:
+      summary: Create portfolio
+      description: Create a new portfolio
+      operationId: createPortfolio
+      tags:
+        - Portfolio
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePortfolioRequest'
+      responses:
+        '201':
+          description: Portfolio created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Portfolio'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/portfolio/{portfolioId}:
+    get:
+      summary: Get portfolio
+      description: Get a specific portfolio by ID
+      operationId: getPortfolio
+      tags:
+        - Portfolio
+      parameters:
+        - name: portfolioId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Portfolio ID
+      responses:
+        '200':
+          description: Portfolio details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Portfolio'
+        '404':
+          description: Portfolio not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      summary: Delete portfolio
+      description: Delete a portfolio by ID
+      operationId: deletePortfolio
+      tags:
+        - Portfolio
+      parameters:
+        - name: portfolioId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Portfolio ID
+      responses:
+        '204':
+          description: Portfolio deleted successfully
+        '404':
+          description: Portfolio not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/portfolio/{portfolioId}/assets:
+    get:
+      summary: Get portfolio assets
+      description: Get assets for a specific portfolio
+      operationId: getPortfolioAssets
+      tags:
+        - Portfolio
+      parameters:
+        - name: portfolioId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Portfolio ID
+      responses:
+        '200':
+          description: Portfolio assets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Asset'
+        '404':
+          description: Portfolio not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    post:
+      summary: Add asset to portfolio
+      description: Add an asset to a portfolio
+      operationId: addAssetToPortfolio
+      tags:
+        - Portfolio
+      parameters:
+        - name: portfolioId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Portfolio ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Asset'
+      responses:
+        '201':
+          description: Asset added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Portfolio not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/portfolio/{portfolioId}/rebalance:
+    post:
+      summary: Rebalance portfolio
+      description: Rebalance a portfolio to target allocations
+      operationId: rebalancePortfolio
+      tags:
+        - Portfolio
+      parameters:
+        - name: portfolioId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Portfolio ID
+      responses:
+        '200':
+          description: Portfolio rebalanced successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RebalanceResponse'
+        '404':
+          description: Portfolio not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/portfolio/{portfolioId}/risk:
+    get:
+      summary: Get portfolio risk assessment
+      description: Get risk assessment for a portfolio
+      operationId: getPortfolioRisk
+      tags:
+        - Portfolio
+      parameters:
+        - name: portfolioId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Portfolio ID
+      responses:
+        '200':
+          description: Portfolio risk assessment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RiskAssessment'
+        '404':
+          description: Portfolio not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/market/data:
+    get:
+      summary: Get market data
+      description: Get real-time market data for specified assets
+      operationId: getMarketData
+      tags:
+        - Market
+      parameters:
+        - name: symbols
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+          description: Asset symbols (e.g., BTC,ETH,SOL)
+        - name: timeframe
+          in: query
+          schema:
+            type: string
+            enum: [1m, 5m, 15m, 1h, 4h, 1d, 1w]
+            default: 1h
+          description: Timeframe for data
+      responses:
+        '200':
+          description: Market data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MarketData'
+        '400':
+          description: Invalid symbols or timeframe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/defi/strategies:
+    get:
+      summary: List DeFi strategies
+      description: Get available DeFi trading strategies
+      operationId: listStrategies
+      tags:
+        - DeFi
+      responses:
+        '200':
+          description: List of strategies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Strategy'
+
+  /api/v1/defi/strategies/{strategyId}/execute:
+    post:
+      summary: Execute strategy
+      description: Execute a DeFi trading strategy
+      operationId: executeStrategy
+      tags:
+        - DeFi
+      parameters:
+        - name: strategyId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Strategy ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteStrategyRequest'
+      responses:
+        '200':
+          description: Strategy executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StrategyExecutionResult'
+        '400':
+          description: Invalid strategy or parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/agents:
+    get:
+      summary: List AI agents
+      description: Get a list of available AI agents
+      operationId: listAgents
+      tags:
+        - Agents
+      responses:
+        '200':
+          description: List of agents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Agent'
+
+  /api/v1/agents/{agentId}/execute:
+    post:
+      summary: Execute agent
+      description: Execute an AI agent with specific parameters
+      operationId: executeAgent
+      tags:
+        - Agents
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Agent ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteAgentRequest'
+      responses:
+        '200':
+          description: Agent executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentExecutionResult'
+        '400':
+          description: Invalid agent or parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [healthy, unhealthy]
+        timestamp:
+          type: string
+          format: date-time
+        version:
+          type: string
+        uptime:
+          type: number
+          format: float
+      example:
+        status: healthy
+        timestamp: "2024-01-15T10:30:00Z"
+        version: "2.0.0"
+        uptime: 3600.5
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: integer
+        details:
+          type: object
+      example:
+        error: "PORTFOLIO_NOT_FOUND"
+        message: "Portfolio with ID 'test-portfolio' not found"
+        code: 404
+        details: {}
+
+    Portfolio:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        totalValue:
+          type: number
+          format: float
+        cashBalance:
+          type: number
+          format: float
+        riskProfile:
+          $ref: '#/components/schemas/RiskProfile'
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Asset'
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Position'
+        lastRebalance:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+      example:
+        id: "main-portfolio"
+        name: "Main Trading Portfolio"
+        totalValue: 150000.0
+        cashBalance: 25000.0
+        riskProfile:
+          type: "moderate"
+          maxDrawdown: 20.0
+          maxPositionSize: 10.0
+          maxLeverage: 3.0
+          targetAllocations:
+            BTC: 40.0
+            ETH: 30.0
+            USDT: 30.0
+        assets:
+          - symbol: "BTC"
+            name: "Bitcoin"
+            amount: 1.5
+            valueUSD: 75000.0
+            priceUSD: 50000.0
+            allocation: 50.0
+            lastUpdate: "2024-01-15T10:30:00Z"
+        positions: []
+        lastRebalance: "2024-01-15T09:00:00Z"
+        createdAt: "2024-01-01T00:00:00Z"
+
+    CreatePortfolioRequest:
+      type: object
+      required:
+        - id
+        - name
+        - riskProfile
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        riskProfile:
+          $ref: '#/components/schemas/RiskProfile'
+        initialCash:
+          type: number
+          format: float
+          default: 0
+
+    RiskProfile:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum: [conservative, moderate, aggressive]
+        maxDrawdown:
+          type: number
+          format: float
+        maxPositionSize:
+          type: number
+          format: float
+        maxLeverage:
+          type: number
+          format: float
+        targetAllocations:
+          type: object
+          additionalProperties:
+            type: number
+            format: float
+
+    Asset:
+      type: object
+      required:
+        - symbol
+        - name
+        - amount
+        - priceUSD
+      properties:
+        symbol:
+          type: string
+        name:
+          type: string
+        amount:
+          type: number
+          format: float
+        valueUSD:
+          type: number
+          format: float
+        priceUSD:
+          type: number
+          format: float
+        allocation:
+          type: number
+          format: float
+        apy:
+          type: number
+          format: float
+        riskScore:
+          type: number
+          format: float
+        lastUpdate:
+          type: string
+          format: date-time
+
+    Position:
+      type: object
+      required:
+        - id
+        - asset
+        - type
+        - size
+        - entryPrice
+      properties:
+        id:
+          type: string
+        asset:
+          type: string
+        type:
+          type: string
+          enum: [long, short]
+        size:
+          type: number
+          format: float
+        entryPrice:
+          type: number
+          format: float
+        currentPrice:
+          type: number
+          format: float
+        pnl:
+          type: number
+          format: float
+        pnlPercent:
+          type: number
+          format: float
+        leverage:
+          type: number
+          format: float
+        status:
+          type: string
+          enum: [open, closed, pending]
+        openedAt:
+          type: string
+          format: date-time
+        closedAt:
+          type: string
+          format: date-time
+
+    RebalanceResponse:
+      type: object
+      properties:
+        portfolioId:
+          type: string
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RebalanceAction'
+        timestamp:
+          type: string
+          format: date-time
+
+    RebalanceAction:
+      type: object
+      properties:
+        asset:
+          type: string
+        action:
+          type: string
+          enum: [buy, sell, hold, adjust]
+        amount:
+          type: number
+          format: float
+        reason:
+          type: string
+
+    RiskAssessment:
+      type: object
+      properties:
+        portfolioId:
+          type: string
+        totalRiskScore:
+          type: number
+          format: float
+        maxDrawdown:
+          type: number
+          format: float
+        volatility:
+          type: number
+          format: float
+        sharpeRatio:
+          type: number
+          format: float
+        concentration:
+          type: number
+          format: float
+        riskLevel:
+          type: string
+          enum: [low, medium, high, critical]
+        recommendations:
+          type: array
+          items:
+            type: string
+        assessmentTime:
+          type: string
+          format: date-time
+
+    MarketData:
+      type: object
+      properties:
+        symbol:
+          type: string
+        price:
+          type: number
+          format: float
+        change24h:
+          type: number
+          format: float
+        volume24h:
+          type: number
+          format: float
+        marketCap:
+          type: number
+          format: float
+        timestamp:
+          type: string
+          format: date-time
+
+    Strategy:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        riskLevel:
+          type: string
+          enum: [low, medium, high]
+        minCapital:
+          type: number
+          format: float
+        maxCapital:
+          type: number
+          format: float
+        expectedReturn:
+          type: number
+          format: float
+        maxDrawdown:
+          type: number
+          format: float
+        parameters:
+          type: object
+
+    ExecuteStrategyRequest:
+      type: object
+      required:
+        - portfolioId
+        - capital
+      properties:
+        portfolioId:
+          type: string
+        capital:
+          type: number
+          format: float
+        parameters:
+          type: object
+
+    StrategyExecutionResult:
+      type: object
+      properties:
+        strategyId:
+          type: string
+        portfolioId:
+          type: string
+        executedAt:
+          type: string
+          format: date-time
+        positionsOpened:
+          type: array
+          items:
+            $ref: '#/components/schemas/Position'
+        estimatedReturn:
+          type: number
+          format: float
+        riskMetrics:
+          type: object
+
+    Agent:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        capabilities:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          enum: [active, inactive, error]
+        lastActive:
+          type: string
+          format: date-time
+
+    ExecuteAgentRequest:
+      type: object
+      required:
+        - task
+      properties:
+        task:
+          type: string
+        parameters:
+          type: object
+        portfolioId:
+          type: string
+
+    AgentExecutionResult:
+      type: object
+      properties:
+        agentId:
+          type: string
+        task:
+          type: string
+        executedAt:
+          type: string
+          format: date-time
+        result:
+          type: object
+        actionsTaken:
+          type: array
+          items:
+            type: string
+        success:
+          type: boolean
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - ApiKeyAuth: []
+  - BearerAuth: []
+
+tags:
+  - name: System
+    description: System health and monitoring endpoints
+  - name: Portfolio
+    description: Portfolio management operations
+  - name: Market
+    description: Market data and analytics
+  - name: DeFi
+    description: DeFi strategy execution
+  - name: Agents
+    description: AI agent management and execution
