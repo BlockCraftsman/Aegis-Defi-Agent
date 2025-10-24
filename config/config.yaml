@@ -1,0 +1,173 @@
+# Aegis DeFi Agent Configuration
+# This is a sample configuration file for the Aegis DeFi Agent
+
+# Environment: development, staging, production
+environment: development
+
+# Server Configuration
+server:
+  host: "0.0.0.0"
+  port: 8080
+  max_connections: 100
+  timeout: 30s
+  cors:
+    allowed_origins:
+      - "*"
+    allowed_methods:
+      - "GET"
+      - "POST"
+      - "PUT"
+      - "DELETE"
+      - "OPTIONS"
+    allowed_headers:
+      - "*"
+
+# Database Configuration
+database:
+  driver: "postgres"
+  host: "localhost"
+  port: 5432
+  name: "aegis_defi"
+  username: "postgres"
+  password: "password"
+  ssl_mode: "disable"
+
+# Blockchain Configuration
+blockchain:
+  default_network: "ethereum"
+  gas_price: 25
+  gas_limit: 21000
+  confirmations: 3
+  private_key: "" # Set your private key here or via environment variable
+  networks:
+    - name: "ethereum"
+      chain_id: 1
+      rpc_url: "https://mainnet.infura.io/v3/YOUR_PROJECT_ID"
+      ws_url: "wss://mainnet.infura.io/ws/v3/YOUR_PROJECT_ID"
+      explorer: "https://etherscan.io"
+    - name: "polygon"
+      chain_id: 137
+      rpc_url: "https://polygon-rpc.com"
+      ws_url: "wss://polygon-rpc.com"
+      explorer: "https://polygonscan.com"
+    - name: "arbitrum"
+      chain_id: 42161
+      rpc_url: "https://arb1.arbitrum.io/rpc"
+      ws_url: "wss://arb1.arbitrum.io/ws"
+      explorer: "https://arbiscan.io"
+
+# Market Data Configuration
+market_data:
+  update_interval: 30s
+  price_feeds:
+    - "ETH/USD"
+    - "BTC/USD"
+    - "USDC/USD"
+    - "MATIC/USD"
+    - "ARB/USD"
+  sources:
+    - name: "pyth"
+      type: "oracle"
+      endpoint: "https://hermes.pyth.network"
+      api_key: "" # Set your Pyth API key here
+      enabled: true
+    - name: "coingecko"
+      type: "api"
+      endpoint: "https://api.coingecko.com/api/v3"
+      api_key: "" # Set your CoinGecko API key here
+      enabled: true
+    - name: "uniswap"
+      type: "dex"
+      endpoint: "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3"
+      api_key: ""
+      enabled: true
+  websocket:
+    enabled: true
+    port: 8081
+    broadcast_rate: 5s
+    max_clients: 100
+
+# Agents Configuration
+agents:
+  max_concurrent: 10
+  strategies:
+    - name: "mean_reversion"
+      type: "mean_reversion"
+      enabled: true
+      assets:
+        - "ETH"
+        - "BTC"
+      risk_profile: "medium"
+      parameters:
+        lookback_period: 20
+        threshold: 2.0
+        position_size: 0.1
+        rsi_period: 14
+        rsi_oversold: 30
+        rsi_overbought: 70
+    - name: "trend_following"
+      type: "trend_following"
+      enabled: true
+      assets:
+        - "BTC"
+        - "ETH"
+      risk_profile: "high"
+      parameters:
+        short_window: 10
+        long_window: 50
+        position_size: 0.05
+        momentum_threshold: 0.02
+    - name: "statistical_arbitrage"
+      type: "statistical_arbitrage"
+      enabled: true
+      assets:
+        - "ETH"
+        - "BTC"
+      risk_profile: "high"
+      parameters:
+        lookback_period: 100
+        z_score_threshold: 2.0
+        position_size: 0.08
+        correlation_threshold: 0.8
+    - name: "yield_farming"
+      type: "yield_farming"
+      enabled: false
+      assets:
+        - "USDC"
+        - "ETH"
+      risk_profile: "low"
+      parameters:
+        min_apy: 0.05
+        max_apy: 0.2
+        position_size: 0.15
+        protocol_whitelist:
+          - "aave"
+          - "compound"
+          - "uniswap"
+  risk:
+    max_position_size: 0.1
+    max_slippage: 0.005
+    stop_loss_percent: 0.05
+    take_profit_percent: 0.1
+    max_drawdown: 0.15
+
+# Logging Configuration
+logging:
+  level: "info"
+  format: "json"
+  output: "stdout"
+  file_path: "/var/log/aegis-defi-agent.log"
+
+# Monitoring Configuration
+monitoring:
+  enabled: true
+  metrics_port: 9090
+  health_check: 300s
+  alerting:
+    enabled: true
+    webhook_url: "" # Set your alert webhook URL here
+    channels:
+      - "console"
+      # - "slack"
+      # - "discord"
+      # - "email"
