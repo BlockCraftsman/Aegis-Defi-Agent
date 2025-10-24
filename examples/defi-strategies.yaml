@@ -1,0 +1,105 @@
+# Example DeFi Strategy Configurations for Aegis-Defi-Agent
+
+# Arbitrage Strategy Example
+arbitrage_eth_usdc:
+  id: "arbitrage_eth_usdc"
+  name: "ETH-USDC Cross-DEX Arbitrage"
+  type: "arbitrage"
+  description: "Automated arbitrage between Uniswap and Sushiswap for ETH-USDC pairs"
+  parameters:
+    max_position_size: 0.05
+    min_profit_margin: 0.01
+    max_slippage: 0.005
+    execution_delay: 5
+    cooldown_period: 60
+    target_assets: ["ETH", "USDC"]
+  conditions:
+    - id: "price_diff_condition"
+      metric: "price_difference"
+      operator: ">"
+      threshold: 0.01
+      duration: 30
+      aggregation: "average"
+      metadata:
+        token_pair: "ETH/USDC"
+        dex1: "uniswap"
+        dex2: "sushiswap"
+  actions:
+    - id: "buy_low_sell_high"
+      type: "swap"
+      target: "uniswap"
+      parameters:
+        from_token: "USDC"
+        to_token: "ETH"
+        amount: 1000.0
+      priority: 1
+  is_active: true
+
+# Yield Farming Strategy Example
+yield_farming_usdc:
+  id: "yield_farming_usdc"
+  name: "USDC Yield Farming"
+  type: "yield_farming"
+  description: "Deposit USDC to Aave for yield farming with automated compounding"
+  parameters:
+    max_position_size: 0.2
+    min_profit_margin: 0.03
+    max_slippage: 0.01
+    execution_delay: 10
+    cooldown_period: 3600
+    target_assets: ["USDC"]
+  conditions:
+    - id: "yield_condition"
+      metric: "yield_rate"
+      operator: ">"
+      threshold: 0.05
+      duration: 300
+      aggregation: "average"
+      metadata:
+        protocol: "aave"
+        asset: "USDC"
+  actions:
+    - id: "deposit_usdc"
+      type: "deposit"
+      target: "aave"
+      parameters:
+        asset: "USDC"
+        amount: 5000.0
+      priority: 1
+  is_active: true
+
+# Liquidity Provision Strategy Example
+liquidity_provision_eth_usdc:
+  id: "liquidity_provision_eth_usdc"
+  name: "ETH-USDC Liquidity Provision"
+  type: "liquidity_provision"
+  description: "Provide liquidity to Uniswap V3 ETH-USDC pool with dynamic range"
+  parameters:
+    max_position_size: 0.15
+    min_profit_margin: 0.02
+    max_slippage: 0.008
+    execution_delay: 15
+    cooldown_period: 1800
+    target_assets: ["ETH", "USDC"]
+  conditions:
+    - id: "volatility_condition"
+      metric: "volatility"
+      operator: "<"
+      threshold: 0.03
+      duration: 600
+      aggregation: "average"
+      metadata:
+        token_pair: "ETH/USDC"
+        timeframe: "1h"
+  actions:
+    - id: "provide_liquidity"
+      type: "provide_liquidity"
+      target: "uniswap_v3"
+      parameters:
+        token0: "ETH"
+        token1: "USDC"
+        amount0: 1.0
+        amount1: 3500.0
+        fee_tier: 500
+      priority: 1
+  is_active: true
