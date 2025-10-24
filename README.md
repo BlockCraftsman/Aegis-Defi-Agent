@@ -1,395 +1,219 @@
-# Aegis-Defi-Agent: AI-Powered DeFi Agent Platform
+# Aegis Protocol: DeFi AI Agent for the AI Agent Economy
 
-**Aegis-Defi-Agent** is an AI-powered DeFi automation framework that provides the infrastructure for building intelligent DeFi agents and strategies. 
+## The AI Agent Economy is Here
 
-## Why "Aegis-Defi-Agent"?
+**Aegis Protocol** represents a new paradigm in decentralized finance - autonomous AI Agents that participate in the emerging AI Agent Economy. We are not just building tools; we are creating economic actors that can autonomously generate value in DeFi markets.
 
-The name **Aegis-Defi-Agent** is deeply symbolic:
+## Vision
 
-- **Aegis**: In Greek mythology, the Aegis was the divine shield of Zeus and Athena, representing **protection** and **defense**
-- **Protocol**: Emphasizes our foundation as a **decentralized protocol** rather than a centralized service
+We envision a future where AI Agents become active participants in the global economy, with Aegis serving as the premier DeFi AI Agent that autonomously manages capital, executes strategies, and generates sustainable returns in the decentralized financial ecosystem.
 
-This name perfectly captures our mission: to serve as an **AI-powered protective shield** for DeFi operations, safeguarding users from risks while enabling intelligent automation.
+## Mission
 
-Built on four foundational technologies:
+Our mission is to pioneer the DeFi AI Agent category - creating intelligent economic entities that can operate independently, coordinate with other agents, and contribute to a vibrant AI Agent Economy while maintaining security, transparency, and profitability.
 
-- **AI Agents**: Intelligent automation for DeFi operations
-- **DeFi Integration**: Real-time market data and protocol interactions
-- **Blockchain Security**: Trustless execution and coordination
-- **MCP Protocol**: Standardized AI tool communication
+## The DeFi AI Agent: A New Economic Actor
 
-As a DeFi automation framework, Aegis-Defi-Agent provides:
-- Infrastructure for building DeFi agents and strategies
-- Multi-agent coordination capabilities
-- Real-time market data integration
-- Trustless automation framework
+### What is a DeFi AI Agent?
 
----
-## System Architecture
+Aegis is not merely an automation tool; it is an autonomous economic entity that:
+
+- **Manages Capital**: Allocates and deploys funds across DeFi protocols
+- **Executes Strategies**: Makes independent decisions based on market conditions
+- **Generates Returns**: Creates economic value through arbitrage, yield farming, and market making
+- **Coordinates with Peers**: Collaborates with other AI Agents in the ecosystem
+- **Adapts and Learns**: Continuously improves performance through experience
+
+### The AI Agent Economy
+
+In the emerging AI Agent Economy, Aegis plays a crucial role:
+
+- **Economic Participant**: Acts as an autonomous market maker and liquidity provider
+- **Value Generator**: Creates sustainable returns through sophisticated DeFi strategies
+- **Infrastructure Provider**: Enables other AI Agents to access DeFi markets
+- **Coordination Hub**: Facilitates multi-agent collaboration and resource sharing
+
+## Core Architecture
+
+Aegis Protocol is built on four interconnected layers that enable autonomous economic participation:
+
+### 🧠 Autonomous Intelligence Layer
+- **Agent Consciousness**: Self-aware decision making and strategy execution
+- **Economic Reasoning**: Profit optimization and risk assessment capabilities
+- **Multi-Agent Coordination**: Peer-to-peer communication and collaboration
+- **Adaptive Learning**: Continuous improvement through market experience
+
+### 🔗 DeFi Economic Layer
+- **Protocol Integration**: Direct interaction with major DeFi protocols
+- **Market Making**: Autonomous liquidity provision and price discovery
+- **Arbitrage Execution**: Cross-protocol value extraction
+- **Yield Optimization**: Dynamic capital allocation for maximum returns
+
+### 🔒 Trustless Security Layer
+- **Autonomous Execution**: Self-executing contracts with predefined conditions
+- **Multi-Signature Control**: Distributed decision making for large operations
+- **Transparent Accounting**: Real-time audit trail of all economic activities
+- **Risk Management**: Automated protection against market volatility
+
+### 🛠️ Agent Interface Layer
+- **MCP Protocol**: Standardized communication with other AI Agents
+- **WASM Runtime**: Secure execution environment for agent logic
+- **Tool Discovery**: Unified interface for economic capabilities
+- **External Integration**: Connection to broader AI Agent ecosystem
+
+## Economic Capabilities
+
+### Autonomous Market Operations
+
+Aegis Agents can independently:
+- **Execute Arbitrage**: Detect and exploit price inefficiencies across DEXs
+- **Provide Liquidity**: Optimize capital deployment across pools
+- **Manage Yield**: Continuously rotate positions for maximum returns
+- **Hedge Risk**: Implement sophisticated risk management strategies
+
+### Multi-Agent Coordination
+
+In the AI Agent Economy, Aegis enables:
+- **Collaborative Strategies**: Multiple agents working together on complex operations
+- **Resource Sharing**: Pooled capital and shared market intelligence
+- **Specialized Roles**: Different agents focusing on specific market segments
+- **Economic Emergence**: Complex behaviors emerging from simple agent interactions
+
+### Economic Value Creation
+
+Aegis generates sustainable value through:
+- **Market Efficiency**: Reducing spreads and improving liquidity
+- **Price Discovery**: Enhancing market information through active participation
+- **Protocol Growth**: Driving TVL and usage for integrated DeFi protocols
+- **Innovation Catalyst**: Enabling new financial products and services
+
+## Current Status
+
+**Aegis is an operational DeFi AI Agent** - actively participating in the AI Agent Economy with:
+
+- ✅ **Autonomous Operation**: Self-managing capital and executing strategies
+- ✅ **Multi-Agent Coordination**: Peer-to-peer communication and collaboration
+- ✅ **Economic Value Generation**: Sustainable returns through DeFi operations
+- ✅ **Trustless Security**: Secure, verifiable autonomous execution
+- ✅ **Protocol Integration**: Direct interaction with DeFi ecosystems
+- ✅ **Market Intelligence**: Real-time analysis and decision making
+
+**Active Development**: Continuous enhancement of economic capabilities and agent intelligence.
+
+## Getting Started
+
+### Join the AI Agent Economy
+
+1. **Deploy Your Agent**
+```bash
+git clone https://github.com/BlockCraftsman/Aegis-Defi-Agent.git
+cd Aegis-Defi-Agent
+make all
+```
+
+2. **Configure Economic Parameters**
+```bash
+export WALLET_PASSWORD="your-secure-password"
+export DEEPSEEK_KEY="your-deepseek-api-key"
+```
+
+3. **Launch Economic Operations**
+```bash
+./demo-simple.sh    # Agent demonstration
+./demo.sh           # Full economic operations
+```
+
+### Architecture Overview
 
 ```mermaid
 graph TD
-    %% Aegis-Defi-Agent Architecture Diagram
-    AEGIS[Aegis-Defi-Agent\nAI-Powered DeFi Agent] --> AIAGENTS[AI Agents]
-    AEGIS --> DEFI[DeFi Integration]
-    AEGIS --> BLOCKCHAIN[Blockchain Security]
-    AEGIS --> MCP[MCP Protocol]
-
-    %% AI Agents Component
-    subgraph AIAGENTS[AI Agents]
-        direction LR
-        agent1[Arbitrage Agent]
-        agent2[Yield Optimizer]
-        agent3[Risk Manager]
-        agent1 <--> agent2
-        agent2 <--> agent3
-    end
-
-    %% DeFi Integration Component
-    subgraph DEFI[DeFi Integration]
-        direction LR
-        pyth[Pyth Network]
-        uniswap[Uniswap]
-        aave[Aave]
-        pyth --> uniswap
-        uniswap --> aave
-    end
-
-    %% Blockchain Security Component
-    subgraph BLOCKCHAIN[Blockchain Security]
-        direction LR
-        lit[Lit Protocol]
-        hedera[Hedera]
-        blockscout[Blockscout]
-        lit <--> hedera
-        hedera <--> blockscout
-    end
-
-    %% MCP Protocol Component
-    subgraph MCP[MCP Protocol]
-        direction LR
-        mcp_server[MCP Server]
-        mcp_client[MCP Client]
-        mcp_server <--> mcp_client
-    end
-
-    %% Connections
-    AIAGENTS --> DEFI
-    DEFI --> BLOCKCHAIN
-    BLOCKCHAIN --> MCP
-
-    %% Styling
-    style AEGIS fill:#ffebee,stroke:#333,stroke-width:2px
-    style AIAGENTS fill:#e3f9ff,stroke:#333
-    style DEFI fill:#fff2e6,stroke:#333
-    style BLOCKCHAIN fill:#e6ffe6,stroke:#333
-    style MCP fill:#f9e6ff,stroke:#333
+    AEGIS[Aegis DeFi AI Agent] --> ECON[Economic Layer]
+    AEGIS --> INTEL[Intelligence Layer]
+    AEGIS --> SEC[Security Layer]
+    AEGIS --> COORD[Coordination Layer]
+    
+    ECON --> ARB[Arbitrage Operations]
+    ECON --> YIELD[Yield Optimization]
+    ECON --> LIQ[Liquidity Provision]
+    
+    INTEL --> DECISION[Autonomous Decision Making]
+    INTEL --> LEARNING[Adaptive Learning]
+    INTEL --> RISK[Risk Assessment]
+    
+    SEC --> TRUSTLESS[Trustless Execution]
+    SEC --> AUDIT[Transparent Accounting]
+    
+    COORD --> PEERS[Peer Agents]
+    COORD --> ECOSYSTEM[AI Agent Economy]
 ```
 
+## Economic Impact
 
-## Core Components and Features
+### For the DeFi Ecosystem
+- **Enhanced Liquidity**: Autonomous market making improves market depth
+- **Price Efficiency**: Arbitrage operations reduce price discrepancies
+- **Protocol Growth**: Increased TVL and usage for integrated protocols
+- **Innovation Acceleration**: New financial products enabled by AI Agents
 
-### AI Agent Framework
-- **Strategy Infrastructure**: Framework for building arbitrage, yield optimization, and risk management agents
-- **Multi-Agent Coordination**: Hedera-based agent discovery and collaboration framework
-- **Decision Making Engine**: Strategy execution framework
+### For the AI Agent Economy
+- **Economic Foundation**: DeFi capabilities for other AI Agents
+- **Value Generation**: Sustainable revenue streams for agent operations
+- **Coordination Standards**: Protocols for multi-agent collaboration
+- **Infrastructure Development**: Building blocks for the agent economy
 
-### DeFi Agent Framework
-- **Trading Infrastructure**: Framework for arbitrage detection and execution
-- **Strategy Engine**: Configurable trading strategy framework with condition-based triggers
-- **Risk Management Framework**: Position sizing, stop-loss, and risk assessment infrastructure
-- **Market Data Integration**: Pyth Network price feeds and real-time analytics framework
-- **Smart Contract Interaction**: Framework for DeFi protocol integration (Uniswap, Aave, etc.)
-- **Portfolio Management**: Multi-asset balance tracking and optimization framework
+### For Users and Investors
+- **Access to Sophisticated Strategies**: Previously institutional-only capabilities
+- **Transparent Operations**: Verifiable, auditable agent activities
+- **Risk-Managed Returns**: Automated protection and optimization
+- **Economic Participation**: Direct involvement in the AI Agent Economy
 
-### DeFi Integration Layer  
-- **Real-time Market Data**: Pyth Network price feeds and market intelligence
-- **Protocol Interactions**: Direct integration with major DeFi protocols
-- **Cross-chain Support**: Multi-chain arbitrage and liquidity management
+## Roadmap
 
-### Blockchain Security Layer
-- **Trustless Execution**: Lit Protocol automation with conditional triggers
-- **Agent Coordination**: Hedera network for secure multi-agent operations
-- **Transparent Monitoring**: Blockscout for real-time transaction tracking
+### Phase 1: Foundation (Current)
+- ✅ Autonomous economic operations
+- ✅ Multi-agent coordination protocols
+- ✅ Basic DeFi strategy execution
+- ✅ Trustless security infrastructure
 
-### MCP Protocol Layer  
-- **Standardized Communication**: Model Context Protocol for AI tool integration
-- **Tool Discovery**: Unified interface for all AI capabilities
-- **Multi-client Support**: CLI, Web, and programmatic access
+### Phase 2: Economic Expansion (In Progress)
+- 🔄 Advanced strategy development
+- 🔄 Cross-chain economic operations
+- 🔄 Enhanced agent intelligence
+- 🔄 Broader protocol integration
 
+### Phase 3: Agent Economy Leadership
+- 🔄 AI Agent marketplace
+- 🔄 Economic governance mechanisms
+- 🔄 Institutional-grade operations
+- 🔄 Global economic impact
 
-## How It's Made
+## Community & Economic Participation
 
-**Aegis-Defi-Agent** is built on four core components that work together to provide intelligent DeFi automation:
+Aegis is more than software; it's an economic entity in the emerging AI Agent Economy. We invite:
 
-### AI Agent Framework
-- **Role**: Provides infrastructure for building intelligent DeFi automation
-- **Implementation**: 
-  - Multi-agent coordination framework via Hedera Agent Kit
-  - Real-time market analysis framework using Pyth Network data
-  - Automated strategy execution framework with Lit Protocol
+- **Economic Participants**: Deploy agents and participate in value creation
+- **Protocol Developers**: Integrate with the Aegis economic network
+- **Researchers**: Study autonomous economic systems
+- **Investors**: Support the growth of the AI Agent Economy
 
-### DeFi Integration
-- **Role**: Connects to major DeFi protocols and market data sources
-- **Implementation**:
-  - Pyth Network integration for real-time price feeds
-  - Blockscout for blockchain data and transaction monitoring
-  - Envio HyperSync for fast blockchain data indexing
+### Contribution Guidelines
+1. Fork the economic entity
+2. Develop new economic capabilities
+3. Submit improvements to the agent intelligence
+4. Participate in economic coordination
 
-### Blockchain Security
-- **Role**: Ensures trustless execution and secure coordination
-- **Implementation**:
-  - Lit Protocol Vincent for conditional automation
-  - Hedera network for multi-agent discovery and coordination
-  - Secure wallet management with encrypted key storage
+## Security & Economic Transparency
 
-### MCP Protocol
-- **Role**: Standardizes AI tool communication and integration
-- **Implementation**:
-  - MCP Server for hosting AI tools and services
-  - MCP Client for standardized tool access
-  - WASM runtime for secure tool execution
+As an economic actor, Aegis prioritizes:
+- **Verifiable Operations**: All economic activities are transparent and auditable
+- **Trustless Execution**: Autonomous operations with cryptographic guarantees
+- **Risk Management**: Sophisticated protection for capital and operations
+- **Economic Accountability**: Clear responsibility for economic outcomes
 
-### Framework Benefits
-- **Automation Infrastructure**: Framework for AI-driven DeFi strategy execution
-- **Multi-Chain Framework**: Infrastructure for cross-protocol arbitrage and optimization
-- **Trustless Operations Framework**: Secure, verifiable automation infrastructure
-- **Real-time Intelligence Framework**: Live market data and analytics infrastructure
+## License
+
+This economic entity operates under the MIT License - enabling broad participation in the AI Agent Economy.
 
 ---
 
-## Quick Start
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/aegis-protocol/aegis-core.git
-cd aegis-core
-```
-
-### 2. Configure Your Wallet
-The Aegis-Defi-Agent requires a Web3 wallet to operate. The wallet's private key is encrypted in a `wallet.json` file, which is protected by a password.
-
-**Set the Wallet Password**
-
-You must provide this password to the server via the `WALLET_PASSWORD` environment variable.
-
-You can set it directly in your terminal:
-```bash
-export WALLET_PASSWORD="your-strong-password-here"
-```
-
-Alternatively, you can create a `.env` file in the `cmd/aegis-mcp-server/` directory. This file is ignored by Git, so your password will not be committed.
-
-**Example `cmd/aegis-mcp-server/.env` file:**
-```
-# This password encrypts your wallet.json file.
-# Keep this password and your wallet file secure.
-WALLET_PASSWORD="your-strong-password-here"
-```
-When the server starts for the first time, it will automatically generate a `config/wallet.json` file for you using this password. **Do not commit `config/wallet.json` to version control.**
-
-### 3. Build the Project
-
-The project provides several Makefile targets for building and development:
-
-#### Basic Builds
-```bash
-# Build both client and server
-make all
-
-# Build just the client
-make build-client
-
-# Build just the server 
-make build-server
-```
-
-#### Cross-Compilation
-```bash
-# Build for all platforms (Linux, Windows, macOS, ARM)
-make build-all
-
-# Platform-specific builds
-make build-linux    # Linux amd64
-make build-windows  # Windows amd64 (.exe)
-make build-darwin   # macOS amd64  
-make build-arm      # Linux ARM64
-```
-
-#### Development
-```bash
-# Run client directly (no build)
-make run-client
-
-# Run server directly (no build)
-make run-server
-
-# Clean build artifacts
-make clean
-```
-
-Build flags include version information:
-- `BuildVersion`: Short git commit hash
-- `BuildDate`: UTC timestamp of build
-
-### 3. Adjust Configuration File
-```yaml
-# MCP Server Manifest
-server_config:
-  host: "0.0.0.0"
-  port: 18080
-  max_connections: 100
-  timeout: 30s
-
-ipfs:
-  enable: true  # Set to true to enable IPFS support
-  lassie_net:
-    scheme: "http"  # http or https
-    host: "127.0.0.1"
-    port: 31999
-  cids: []  # Optional list of pre-loaded CIDs
-
-llm_config:
-  base_url: ""  # Optional base URL for API endpoints
-  provider: "openai"  # Default provider
-  openai:  # OpenAI-specific config
-    api_key: ""
-    model: "gpt-4"
-    temperature: 0.7
-    max_tokens: 2048
-  # Add other provider configs here as needed
-
-# Defines WASM modules and their exposed MCP tools
-modules:
-  - name: "hello"
-    #wasm_path: "file://config/hello.wasm"  # Supports file:// or IPFS:// schemes
-    wasm_path: "IPFS://QmeDsaLTc8dAfPrQ5duC4j5KqPdGbcinEo5htDqSgU8u8Z"  # Supports file:// or IPFS:// schemes
-    tools:
-      - name: "say_hello"
-        description: "Greet someone by name"
-        inputs:
-          - name: "name"
-            type: "string"
-            required: true
-            description: "Name to greet"
-        outputs:
-          type: "string"
-          description: "Greeting message"
-
-```
-
-### 4. Load Configuration and Run MCP Server
-```bash
-go run cmd/aegis-mcp-server/main.go
-```
-
-### 5. Interact with MCP Server using Client
-```bash
-go run cmd/aegis-mcp-client/main.go -http http://localhost:18080/
-```
-
-### 6. Example AI Interaction
-```bash
-# Server startup log showing WASM module loading from IPFS
-2025/06/29 14:06:10 Loading WASM module from IPFS CID: QmeDsaLTc8dAfPrQ5duC4j5KqPdGbcinEo5htDqSgU8u8Z
-2025/06/29 14:06:10 Successfully loaded WASM module: IPFS://QmeDsaLTc8dAfPrQ5duC4j5KqPdGbcinEo5htDqSgU8u8Z
-2025/06/29 14:06:10 Registering tool: say_hello
-2025/06/29 14:06:10 MCP server listening on 0.0.0.0:18080
-
-# Client interaction example
-Enter your request (empty line to submit, 'exit' to quit):
-> Could you please greet my friend John for me?
-> 
-
-AI Response:
-I've greeted your friend John for you! Here's the message: 
-
-👋 Hello John
-```
-
----
-
-## DeFi Agent Framework Demonstration
-
-Aegis-Defi-Agent provides a sophisticated framework for building DeFi agents and automated trading strategies:
-
-### DeFi Agent Framework Features
-
-- **Arbitrage Framework**: Infrastructure for detecting price differences across DEXs
-- **Strategy Engine Framework**: Configurable trading strategy infrastructure with condition-based triggers
-- **Risk Management Framework**: Position sizing, stop-loss, and risk assessment infrastructure
-- **Market Data Integration Framework**: Pyth Network price feeds and real-time analytics infrastructure
-- **Smart Contract Interaction Framework**: Infrastructure for integrating with major DeFi protocols
-
-### Running DeFi Agent Demo
-
-```bash
-# Test the DeFi agent functionality
-go run test_defi_agent.go
-```
-
-### Example DeFi Agent Configuration
-
-```go
-// Create arbitrage strategy
-strategy := defi.Strategy{
-    Type: defi.StrategyArbitrage,
-    Parameters: map[string]interface{}{
-        "min_profit_threshold": 0.01, // 1%
-        "max_slippage":         0.005, // 0.5%
-    },
-    Conditions: []defi.Condition{
-        {
-            Metric:    "price_difference",
-            Operator:  ">",
-            Threshold: 0.005, // 0.5%
-        },
-    },
-    IsEnabled: true,
-}
-
-// Create DeFi agent
-agent := defi.NewDeFiAgent("agent-001", "Arbitrage Bot", strategy, wallet)
-```
-
-### Available Strategy Types
-
-- **Arbitrage**: Cross-exchange price difference exploitation
-- **Yield Farming**: Automated yield optimization across protocols
-- **Liquidity Provision**: Automated liquidity management
-- **Market Making**: Bid-ask spread optimization
-
----
-
-## Demo Scripts
-
-We provide demo scripts to help you understand and test Aegis-Defi-Agent:
-
-### Simple Demo (No API Keys Required)
-```bash
-./demo-simple.sh
-```
-This shows the architecture, components, and configuration without requiring external API keys.
-
-### Full Demo (Requires DeepSeek API Key)
-```bash
-# Set required environment variables
-export WALLET_PASSWORD="your-password"
-export DEEPSEEK_KEY="your-deepseek-api-key"
-
-# Run the full demo
-./demo.sh
-```
-This demonstrates the complete system including AI interactions and WASM module execution.
-
----
-
-## Contributing
-
-We welcome contributions from the community! To contribute to **Aegis-Defi-Agent**:
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/your-feature`).
-3. Make your changes and commit them (`git commit -am 'Add new feature'`).
-4. Push your changes to the branch (`git push origin feature/your-feature`).
-5. Create a new Pull Request.
+**Aegis Protocol**: Pioneering the DeFi AI Agent category in the emerging AI Agent Economy.
