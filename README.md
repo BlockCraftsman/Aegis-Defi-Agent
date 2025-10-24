@@ -169,23 +169,52 @@ graph TD
 
 ## Roadmap
 
-### Phase 1: Foundation (Current)
-- ✅ Autonomous economic operations
-- ✅ Multi-agent coordination protocols
-- ✅ Basic DeFi strategy execution
-- ✅ Trustless security infrastructure
+### Development Timeline
 
-### Phase 2: Economic Expansion (In Progress)
-- 🔄 Advanced strategy development
-- 🔄 Cross-chain economic operations
-- 🔄 Enhanced agent intelligence
-- 🔄 Broader protocol integration
+```mermaid
+gantt
+    title Aegis Protocol Development Roadmap
+    dateFormat  YYYY-MM
+    axisFormat  %b %Y
+    
+    section Phase 1: Core Infrastructure (Q4 2024 - Q1 2025)
+    MCP Protocol Implementation     :done,    p1_1, 2024-10, 3M
+    WASM Module System              :done,    p1_2, 2024-10, 3M
+    Multi-Agent Coordination        :done,    p1_3, 2024-11, 2M
+    Basic Strategy Framework        :done,    p1_4, 2024-11, 2M
+    
+    section Phase 2: Economic Expansion (Q1 2025 - Q2 2025)
+    Advanced Arbitrage Strategies   :active,  p2_1, 2025-01, 2M
+    Cross-Chain Operations          :active,  p2_2, 2025-01, 3M
+    Enhanced Risk Management        :         p2_3, 2025-02, 2M
+    Protocol Integrations           :         p2_4, 2025-02, 3M
+    
+    section Phase 3: Agent Ecosystem (Q2 2025 - Q3 2025)
+    Agent Marketplace MVP           :         p3_1, 2025-04, 2M
+    Economic Governance             :         p3_2, 2025-05, 2M
+    Institutional Features          :         p3_3, 2025-06, 2M
+    Production Deployment           :         p3_4, 2025-07, 1M
+```
 
-### Phase 3: Agent Economy Leadership
-- 🔄 AI Agent marketplace
-- 🔄 Economic governance mechanisms
-- 🔄 Institutional-grade operations
-- 🔄 Global economic impact
+### Current Milestones (Q1 2025)
+
+#### ✅ Completed
+- **MCP Protocol**: Full Model Context Protocol implementation
+- **WASM Runtime**: Secure execution environment for agent logic
+- **Multi-Agent Framework**: Coordination protocols for agent collaboration
+- **Core Strategy Engine**: Infrastructure for arbitrage and yield optimization
+
+#### 🔄 In Progress (Q1 2025)
+- **Advanced Arbitrage**: Multi-DEX arbitrage with real protocol integration
+- **Cross-Chain Support**: Ethereum, Polygon, Arbitrum deployment
+- **Enhanced Intelligence**: Machine learning for strategy optimization
+- **Protocol SDK**: Unified interface for major DeFi protocols
+
+#### 📋 Next Milestones (Q2 2025)
+- **Agent Marketplace**: Platform for agent deployment and coordination
+- **Economic Governance**: Community-driven decision making
+- **Institutional Features**: Advanced security and compliance
+- **Production Ready**: Enterprise-grade deployment infrastructure
 
 ## Community & Economic Participation
 
