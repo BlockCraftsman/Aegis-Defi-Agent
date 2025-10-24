@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/aegis-protocol/aegis-core/pkg/mcpclient"
+	"github.com/BlockCraftsman/Aegis-Defi-Agent/pkg/mcpclient"
 	"github.com/joho/godotenv"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/sashabaranov/go-openai"

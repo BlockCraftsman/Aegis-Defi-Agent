@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/aegis-protocol/aegis-core/core/mcp"
+	"github.com/BlockCraftsman/Aegis-Defi-Agent/core/mcp"
 )
 
 // setupWallet handles the creation or loading of the wallet.

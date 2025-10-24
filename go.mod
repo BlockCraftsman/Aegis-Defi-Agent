@@ -1,4 +1,4 @@
-module github.com/aegis-protocol/aegis-core
+module github.com/BlockCraftsman/Aegis-Defi-Agent
 
 go 1.24.3
 
@@ -102,4 +102,4 @@ require (
 	lukechampine.com/blake3 v1.4.1 // indirect
 )
 
-replace github.com/aegis-protocol/aegis-core/pkg/mcpclient => ./pkg/mcpclient
+replace github.com/BlockCraftsman/Aegis-Defi-Agent/pkg/mcpclient => ./pkg/mcpclient

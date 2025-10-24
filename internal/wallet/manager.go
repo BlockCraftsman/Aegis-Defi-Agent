@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/aegis-protocol/aegis-core/pkg/mcpclient"
+	"github.com/BlockCraftsman/Aegis-Defi-Agent/pkg/mcpclient"
 )
 
 type Manager struct {

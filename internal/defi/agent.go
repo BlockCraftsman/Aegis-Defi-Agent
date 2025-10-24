@@ -7,7 +7,7 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/aegis-protocol/aegis-core/pkg/mcpclient"
+	"github.com/BlockCraftsman/Aegis-Defi-Agent/pkg/mcpclient"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 )

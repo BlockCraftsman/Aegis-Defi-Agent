@@ -11,9 +11,9 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/aegis-protocol/aegis-core/internal/agent"
-	"github.com/aegis-protocol/aegis-core/internal/market"
-	"github.com/aegis-protocol/aegis-core/internal/wallet"
+	"github.com/BlockCraftsman/Aegis-Defi-Agent/internal/agent"
+	"github.com/BlockCraftsman/Aegis-Defi-Agent/internal/market"
+	"github.com/BlockCraftsman/Aegis-Defi-Agent/internal/wallet"
 )
 
 type ViewType int

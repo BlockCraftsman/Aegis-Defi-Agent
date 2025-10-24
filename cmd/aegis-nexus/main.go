@@ -8,7 +8,7 @@ import (
 	"github.com/charmbracelet/lipgloss"
 	"github.com/spf13/cobra"
 
-	"github.com/aegis-protocol/aegis-core/internal/tui"
+	"github.com/BlockCraftsman/Aegis-Defi-Agent/internal/tui"
 )
 
 var (

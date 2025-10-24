@@ -17,8 +17,8 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/aegis-protocol/aegis-core/internal/defi"
-	"github.com/aegis-protocol/aegis-core/pkg/mcpclient"
+	"github.com/BlockCraftsman/Aegis-Defi-Agent/internal/defi"
+	"github.com/BlockCraftsman/Aegis-Defi-Agent/pkg/mcpclient"
 )
 
 // DeFiAgentTerminal represents the terminal interface for DeFi AI Agent

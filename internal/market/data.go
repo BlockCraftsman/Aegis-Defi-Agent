@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/aegis-protocol/aegis-core/pkg/mcpclient"
+	"github.com/BlockCraftsman/Aegis-Defi-Agent/pkg/mcpclient"
 )
 
 type Data struct {
@@ -109,14 +109,14 @@ func (d *Data) updateFromPyth() {
 	// Get real prices from Pyth Network
 	symbols := []string{"ETH/USD", "BTC/USD", "SOL/USD", "MATIC/USD", "USDC/USD"}
 
-	pythPrices, err := d.pythClient.GetMultiplePrices(symbols)
-	if err != nil {
-		fmt.Printf("Warning: Failed to fetch Pyth prices: %v\n", err)
-		return
-	}
+	// Use individual GetPrice calls since GetMultiplePrices doesn't exist
+	for _, pythSymbol := range symbols {
+		pythData, err := d.pythClient.GetPrice(pythSymbol)
+		if err != nil {
+			fmt.Printf("Warning: Failed to fetch Pyth price for %s: %v\n", pythSymbol, err)
+			continue
+		}
 
-	// Update our price data with real Pyth prices
-	for pythSymbol, pythData := range pythPrices {
 		// Convert Pyth symbol format to our internal format
 		var symbol string
 		switch pythSymbol {

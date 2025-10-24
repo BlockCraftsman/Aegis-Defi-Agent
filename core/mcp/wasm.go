@@ -9,7 +9,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/aegis-protocol/aegis-core/pkg/ipfs"
+	"github.com/BlockCraftsman/Aegis-Defi-Agent/pkg/ipfs"
 	extism "github.com/extism/go-sdk"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
