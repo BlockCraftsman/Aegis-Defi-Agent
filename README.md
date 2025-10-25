@@ -1,4 +1,4 @@
-# Aegis Protocol: DeFi AI Agent for the AI Agent Economy
+#  Aegis-Defi-Agent: DeFi AI Agent for the AI Agent Economy
 
 ## The AI Agent Economy is Here
 
@@ -242,10 +242,60 @@ As an economic actor, Aegis prioritizes:
 - **Risk Management**: Sophisticated protection for capital and operations
 - **Economic Accountability**: Clear responsibility for economic outcomes
 
-## License
+## ⚠️ Important Disclaimer
 
-This economic entity operates under the MIT License - enabling broad participation in the AI Agent Economy.
+### Experimental Nature
+
+**Aegis Protocol is an experimental DeFi AI Agent project intended for research and educational purposes only.** This project represents cutting-edge research in autonomous economic agents and should be treated as experimental software.
+
+### No Financial Advice
+
+- **Not Financial Advice**: This project does not constitute financial advice, investment advice, or trading advice
+- **No Guarantees**: There are no guarantees of profitability, performance, or returns
+- **High Risk**: DeFi trading involves substantial risk of loss
+- **Experimental Strategies**: Trading strategies implemented are experimental and unproven
+
+### Technical Research Focus
+
+This project is primarily:
+- **Research Platform**: For studying autonomous economic agents and AI coordination
+- **Technical Experiment**: Exploring the boundaries of AI-driven DeFi operations
+- **Educational Tool**: For understanding complex financial algorithms and agent systems
+- **Prototype System**: Demonstrating potential future capabilities
+
+### Risk Warnings
+
+**CRITICAL RISKS INVOLVED:**
+
+1. **Financial Loss**: You may lose all invested capital
+2. **Smart Contract Risk**: Potential vulnerabilities in deployed contracts
+3. **Market Risk**: Extreme volatility and unpredictable market conditions
+4. **Technical Risk**: Software bugs, system failures, and network issues
+5. **Regulatory Risk**: Evolving regulatory landscape for DeFi and AI agents
+6. **Experimental Risk**: Unproven strategies and novel approaches
+
+### Legal Compliance
+
+- **Compliance Responsibility**: Users are solely responsible for ensuring compliance with local laws and regulations
+- **No Regulatory Approval**: This project has not been reviewed or approved by any financial regulatory authority
+- **Professional Advice**: Consult with qualified financial and legal professionals before using
+- **Personal Responsibility**: All usage is at your own risk and discretion
+
+### Usage Restrictions
+
+**DO NOT USE REAL FUNDS FOR EXPERIMENTAL PURPOSES**
+
+- Use only test networks and test funds
+- Never deploy with significant capital
+- Always conduct thorough testing and security audits
+- Maintain appropriate risk management practices
+
+### No Warranties
+
+This software is provided "as is" without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement.
 
 ---
 
-**Aegis Protocol**: Pioneering the DeFi AI Agent category in the emerging AI Agent Economy.
+**Aegis **: Pioneering the DeFi AI Agent category in the emerging AI Agent Economy.
+
+*This project is for research and educational purposes only. Use at your own risk.*
