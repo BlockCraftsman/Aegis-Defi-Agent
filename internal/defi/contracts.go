@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"math/big"
+	"os"
 	"strings"
 	"time"
 
@@ -16,6 +17,9 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
 )
+
+// uint24 type for Uniswap V3 fees
+type uint24 uint32
 
 // ContractManager handles interactions with DeFi smart contracts
 type ContractManager struct {
@@ -32,9 +36,19 @@ type DeFiContract struct {
 	Instance interface{}
 }
 
-// NewContractManager creates a new contract manager
+// NewContractManager creates a new contract manager with real blockchain connection
 func NewContractManager(client *ethclient.Client, privateKey string) (*ContractManager, error) {
-	key, err := crypto.HexToECDSA(privateKey)
+	if client == nil {
+		// Create a real blockchain connection
+		rpcURL := getRPCURL()
+		var err error
+		client, err = ethclient.Dial(rpcURL)
+		if err != nil {
+			return nil, fmt.Errorf("failed to connect to blockchain: %v", err)
+		}
+	}
+
+	key, err := crypto.HexToECDSA(strings.TrimPrefix(privateKey, "0x"))
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse private key: %v", err)
 	}
@@ -49,11 +63,222 @@ func NewContractManager(client *ethclient.Client, privateKey string) (*ContractM
 		return nil, fmt.Errorf("failed to create transactor: %v", err)
 	}
 
-	return &ContractManager{
+	// Get current nonce and gas price
+	address := crypto.PubkeyToAddress(key.PublicKey)
+	nonce, err := client.PendingNonceAt(context.Background(), address)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get nonce: %v", err)
+	}
+
+	gasPrice, err := client.SuggestGasPrice(context.Background())
+	if err != nil {
+		return nil, fmt.Errorf("failed to get gas price: %v", err)
+	}
+
+	transactor.Nonce = big.NewInt(int64(nonce))
+	transactor.GasPrice = gasPrice
+	transactor.GasLimit = 300000
+
+	manager := &ContractManager{
 		Client:     client,
 		Transactor: transactor,
 		Contracts:  make(map[string]*DeFiContract),
-	}, nil
+	}
+
+	// Initialize common DeFi contracts
+	if err := manager.initializeCommonContracts(); err != nil {
+		log.Printf("Warning: Failed to initialize some contracts: %v", err)
+	}
+
+	return manager, nil
+}
+
+// initializeCommonContracts initializes common DeFi contracts
+func (cm *ContractManager) initializeCommonContracts() error {
+	// Initialize Uniswap V2 Router
+	uniswapV2RouterABI := `[
+		{
+			"inputs": [
+				{"internalType": "uint256", "name": "amountIn", "type": "uint256"},
+				{"internalType": "address[]", "name": "path", "type": "address[]"}
+			],
+			"name": "getAmountsOut",
+			"outputs": [
+				{"internalType": "uint256[]", "name": "amounts", "type": "uint256[]"}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{"internalType": "uint256", "name": "amountOutMin", "type": "uint256"},
+				{"internalType": "address[]", "name": "path", "type": "address[]"},
+				{"internalType": "address", "name": "to", "type": "address"},
+				{"internalType": "uint256", "name": "deadline", "type": "uint256"}
+			],
+			"name": "swapExactETHForTokens",
+			"outputs": [
+				{"internalType": "uint256[]", "name": "amounts", "type": "uint256[]"}
+			],
+			"stateMutability": "payable",
+			"type": "function"
+		}
+	]`
+
+	// Initialize Uniswap V3 Router
+	uniswapV3RouterABI := `[
+		{
+			"inputs": [
+				{
+					"components": [
+						{"internalType": "address", "name": "tokenIn", "type": "address"},
+						{"internalType": "address", "name": "tokenOut", "type": "address"},
+						{"internalType": "uint24", "name": "fee", "type": "uint24"},
+						{"internalType": "address", "name": "recipient", "type": "address"},
+						{"internalType": "uint256", "name": "deadline", "type": "uint256"},
+						{"internalType": "uint256", "name": "amountIn", "type": "uint256"},
+						{"internalType": "uint256", "name": "amountOutMinimum", "type": "uint256"},
+						{"internalType": "uint160", "name": "sqrtPriceLimitX96", "type": "uint160"}
+					],
+					"internalType": "struct ISwapRouter.ExactInputSingleParams",
+					"name": "params",
+					"type": "tuple"
+				}
+			],
+			"name": "exactInputSingle",
+			"outputs": [{"internalType": "uint256", "name": "amountOut", "type": "uint256"}],
+			"stateMutability": "payable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"components": [
+						{"internalType": "bytes", "name": "path", "type": "bytes"},
+						{"internalType": "address", "name": "recipient", "type": "address"},
+						{"internalType": "uint256", "name": "deadline", "type": "uint256"},
+						{"internalType": "uint256", "name": "amountIn", "type": "uint256"},
+						{"internalType": "uint256", "name": "amountOutMinimum", "type": "uint256"}
+					],
+					"internalType": "struct ISwapRouter.ExactInputParams",
+					"name": "params",
+					"type": "tuple"
+				}
+			],
+			"name": "exactInput",
+			"outputs": [{"internalType": "uint256", "name": "amountOut", "type": "uint256"}],
+			"stateMutability": "payable",
+			"type": "function"
+		}
+	]`
+
+	if err := cm.AddContract("uniswap_v2_router", UniswapV2Router, uniswapV2RouterABI); err != nil {
+		return fmt.Errorf("failed to add Uniswap V2 Router: %v", err)
+	}
+
+	// Initialize Uniswap V3 Router
+	if err := cm.AddContract("uniswap_v3_router", UniswapV3Router, uniswapV3RouterABI); err != nil {
+		return fmt.Errorf("failed to add Uniswap V3 Router: %v", err)
+	}
+
+	// Initialize Aave Lending Pool
+	aaveLendingPoolABI := `[
+		{
+			"inputs": [
+				{"internalType": "address", "name": "asset", "type": "address"},
+				{"internalType": "uint256", "name": "amount", "type": "uint256"},
+				{"internalType": "address", "name": "onBehalfOf", "type": "address"},
+				{"internalType": "uint16", "name": "referralCode", "type": "uint16"}
+			],
+			"name": "deposit",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{"internalType": "address", "name": "asset", "type": "address"},
+				{"internalType": "uint256", "name": "amount", "type": "uint256"},
+				{"internalType": "address", "name": "to", "type": "address"}
+			],
+			"name": "withdraw",
+			"outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{"internalType": "address", "name": "asset", "type": "address"},
+				{"internalType": "uint256", "name": "amount", "type": "uint256"},
+				{"internalType": "uint256", "name": "interestRateMode", "type": "uint256"},
+				{"internalType": "uint16", "name": "referralCode", "type": "uint16"},
+				{"internalType": "address", "name": "onBehalfOf", "type": "address"}
+			],
+			"name": "borrow",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		}
+	]`
+
+	if err := cm.AddContract("aave_lending_pool", AaveLendingPool, aaveLendingPoolABI); err != nil {
+		return fmt.Errorf("failed to add Aave Lending Pool: %v", err)
+	}
+
+	// Initialize ERC20 token interface (for common tokens)
+	erc20ABI := `[
+		{
+			"inputs": [{"internalType": "address", "name": "account", "type": "address"}],
+			"name": "balanceOf",
+			"outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{"internalType": "address", "name": "spender", "type": "address"},
+				{"internalType": "uint256", "name": "amount", "type": "uint256"}
+			],
+			"name": "approve",
+			"outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		}
+	]`
+
+	// Add common ERC20 tokens
+	commonTokens := map[string]common.Address{
+		"USDC": common.HexToAddress("0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"),
+		"USDT": common.HexToAddress("0xdAC17F958D2ee523a2206206994597C13D831ec7"),
+		"DAI":  common.HexToAddress("0x6B175474E89094C44Da98b954EedeAC495271d0F"),
+		"WETH": common.HexToAddress("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"),
+	}
+
+	for name, address := range commonTokens {
+		if err := cm.AddContract("erc20_"+name, address, erc20ABI); err != nil {
+			log.Printf("Warning: Failed to add %s token: %v", name, err)
+		}
+	}
+
+	log.Printf("Initialized %d common contracts", len(cm.Contracts))
+	return nil
+}
+
+// getRPCURL returns the appropriate RPC URL based on environment
+func getRPCURL() string {
+	// Check environment variables first
+	if url := os.Getenv("ETH_RPC_URL"); url != "" {
+		return url
+	}
+	if url := os.Getenv("POLYGON_RPC_URL"); url != "" {
+		return url
+	}
+	if url := os.Getenv("ARBITRUM_RPC_URL"); url != "" {
+		return url
+	}
+
+	// Fallback to public RPC endpoints
+	return "https://eth-mainnet.g.alchemy.com/v2/demo"
 }
 
 // AddContract adds a new contract to the manager
@@ -216,6 +441,10 @@ const (
 	UniswapV2SwapExactTokensForETH = "swapExactTokensForETH"
 	UniswapV2GetAmountsOut         = "getAmountsOut"
 
+	// Uniswap V3 Router ABI methods
+	UniswapV3ExactInputSingle = "exactInputSingle"
+	UniswapV3ExactInput       = "exactInput"
+
 	// Aave ABI methods
 	AaveDeposit  = "deposit"
 	AaveWithdraw = "withdraw"
@@ -273,6 +502,47 @@ func (cm *ContractManager) GetExpectedOutput(
 	}
 
 	return amounts[len(amounts)-1], nil
+}
+
+// UniswapV3ExactInputSingle executes a single token swap on Uniswap V3
+func (cm *ContractManager) UniswapV3ExactInputSingle(
+	tokenIn common.Address,
+	tokenOut common.Address,
+	fee uint24,
+	recipient common.Address,
+	deadline *big.Int,
+	amountIn *big.Int,
+	amountOutMinimum *big.Int,
+	sqrtPriceLimitX96 *big.Int,
+) (*types.Transaction, error) {
+
+	// Create the params struct
+	params := struct {
+		TokenIn           common.Address
+		TokenOut          common.Address
+		Fee               uint24
+		Recipient         common.Address
+		Deadline          *big.Int
+		AmountIn          *big.Int
+		AmountOutMinimum  *big.Int
+		SqrtPriceLimitX96 *big.Int
+	}{
+		TokenIn:           tokenIn,
+		TokenOut:          tokenOut,
+		Fee:               fee,
+		Recipient:         recipient,
+		Deadline:          deadline,
+		AmountIn:          amountIn,
+		AmountOutMinimum:  amountOutMinimum,
+		SqrtPriceLimitX96: sqrtPriceLimitX96,
+	}
+
+	return cm.TransactContract(
+		"uniswap_v3_router",
+		UniswapV3ExactInputSingle,
+		big.NewInt(0),
+		params,
+	)
 }
 
 // Example: Deposit to Aave

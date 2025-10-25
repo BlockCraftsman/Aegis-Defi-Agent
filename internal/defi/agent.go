@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"math/big"
+	"os"
 	"time"
 
 	"github.com/BlockCraftsman/Aegis-Defi-Agent/pkg/mcpclient"
@@ -118,20 +119,44 @@ func NewRiskManager() *RiskManager {
 	}
 }
 
-// NewBlockchain creates blockchain client
+// NewBlockchain creates blockchain client with real connection
 func NewBlockchain() *Blockchain {
-	// Default to Ethereum mainnet
-	client, err := ethclient.Dial("https://mainnet.infura.io/v3/YOUR_PROJECT_ID")
+	// Get RPC URL from environment or use default
+	rpcURL := os.Getenv("ETH_RPC_URL")
+	if rpcURL == "" {
+		// Use public RPC endpoints as fallback
+		rpcURL = "https://eth-mainnet.g.alchemy.com/v2/demo"
+	}
+
+	client, err := ethclient.Dial(rpcURL)
 	if err != nil {
 		log.Printf("Warning: Failed to connect to blockchain: %v", err)
-		return nil
+		// Return a client that can be configured later
+		return &Blockchain{
+			Client:   nil,
+			ChainID:  big.NewInt(1),
+			GasPrice: big.NewInt(20000000000),
+			GasLimit: 21000,
+		}
+	}
+
+	// Get current gas price
+	gasPrice, err := client.SuggestGasPrice(context.Background())
+	if err != nil {
+		gasPrice = big.NewInt(20000000000) // Fallback to 20 Gwei
+	}
+
+	// Get chain ID
+	chainID, err := client.ChainID(context.Background())
+	if err != nil {
+		chainID = big.NewInt(1) // Fallback to Ethereum mainnet
 	}
 
 	return &Blockchain{
 		Client:   client,
-		ChainID:  big.NewInt(1),
-		GasPrice: big.NewInt(20000000000), // 20 Gwei
-		GasLimit: 21000,
+		ChainID:  chainID,
+		GasPrice: gasPrice,
+		GasLimit: 300000, // Higher limit for contract interactions
 	}
 }
 
