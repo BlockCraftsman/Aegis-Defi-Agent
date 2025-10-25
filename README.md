@@ -2,7 +2,7 @@
 
 ## The AI Agent Economy is Here
 
-**Aegis Protocol** represents a new paradigm in decentralized finance - autonomous AI Agents that participate in the emerging AI Agent Economy. We are not just building tools; we are creating economic actors that can autonomously generate value in DeFi markets.
+**Aegis Defi Agent** represents a new paradigm in decentralized finance - autonomous AI Agents that participate in the emerging AI Agent Economy. We are not just building tools; we are creating economic actors that can autonomously generate value in DeFi markets.
 
 ## Vision
 
@@ -35,7 +35,7 @@ In the emerging AI Agent Economy, Aegis plays a crucial role:
 
 ## Core Architecture
 
-Aegis Protocol is built on four interconnected layers that enable autonomous economic participation:
+Aegis Defi Agent is built on four interconnected layers that enable autonomous economic participation:
 
 ### 🧠 Autonomous Intelligence Layer
 - **Agent Consciousness**: Self-aware decision making and strategy execution
@@ -173,7 +173,7 @@ graph TD
 
 ```mermaid
 gantt
-    title Aegis Protocol Development Roadmap
+    title Aegis Defi Agent Development Roadmap
     dateFormat  YYYY-MM
     axisFormat  %b %Y
     
@@ -246,7 +246,7 @@ As an economic actor, Aegis prioritizes:
 
 ### Experimental Nature
 
-**Aegis Protocol is an experimental DeFi AI Agent project intended for research and educational purposes only.** This project represents cutting-edge research in autonomous economic agents and should be treated as experimental software.
+**Aegis Defi Agent is an experimental DeFi AI Agent project intended for research and educational purposes only.** This project represents cutting-edge research in autonomous economic agents and should be treated as experimental software.
 
 ### No Financial Advice
 
