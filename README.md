@@ -296,6 +296,6 @@ This software is provided "as is" without warranty of any kind, express or impli
 
 ---
 
-**Aegis **: Pioneering the DeFi AI Agent category in the emerging AI Agent Economy.
+**Aegis**: Pioneering the DeFi AI Agent category in the emerging AI Agent Economy.
 
 *This project is for research and educational purposes only. Use at your own risk.*
